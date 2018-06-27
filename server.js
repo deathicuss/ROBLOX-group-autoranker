@@ -255,7 +255,8 @@ app.param('userId', function(req, res, next, userIdString) {
 
 
 // Routes
-var BOT_DATA = JSON.parse(fs.readFileSync("auth.json"));
+var BOT_USER = process.env.USER && Buffer.from(process.env.USER)
+var BOT_PASS = process.env.PASS && Buffer.from(process.env.PASS)
 
 app.get('/group/:groupId', function (req, res) {
     res.json(req.Group);
@@ -297,7 +298,7 @@ app.get('/group/:groupId/setRank/:userId/:roleRankId', function (req, res) {
         if (err) {
             res.status(500).json({ error: err.message });
         } else {
-            User.authenticate(BOT_DATA.username, BOT_DATA.password, function(err, bot) {
+            User.authenticate(USER, PASS, function(err, bot) {
                 if (err) {
                     res.status(500).json({ error: err.message });
                 } else {
